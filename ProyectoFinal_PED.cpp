@@ -36,6 +36,7 @@ struct cliente {
     float total;
 };
 
+void ShowMenu();
 
 int main (){
     bool menu = true;
@@ -51,12 +52,7 @@ int main (){
             case 2:
             break;
             case 3:
-                cout << "\tOSO MELOSO\t\t\tMC BURGER\t\t\tEL BUEN CAFE\n";
-                cout <<"\tCrepas - $3.50\t\t\tPapas Fritas - $1.00\t\tMalteadas - $2.00\n";
-                cout <<"\tPie con cafe - $4.00\t\tHamburguesa - $3.50\t\tCapuccino - $2.50\n";
-                cout <<"\tPastel 12 porciones - $30.00\tHamburguesa Doble - $5.00\tCafe - $1.25\n";
-                cout << "\t\t\t\t\tNachos - $4.50\t\t\tBolsa de Grano de Cafe - $10.00\n";
-                cout << "\t\t\t\t\tHot Kaiser - $1.25\n\n";
+                ShowMenu();
             break;
             case 4:
             break;
@@ -68,4 +64,13 @@ int main (){
         }
     } while (menu == true);
 
+}
+
+void ShowMenu(){
+    cout << "\tOSO MELOSO\t\t\tMC BURGER\t\t\tEL BUEN CAFE\n";
+    cout <<"\tCrepas - $3.50\t\t\tPapas Fritas - $1.00\t\tMalteadas - $2.00\n";
+    cout <<"\tPie con cafe - $4.00\t\tHamburguesa - $3.50\t\tCapuccino - $2.50\n";
+    cout <<"\tPastel 12 porciones - $30.00\tHamburguesa Doble - $5.00\tCafe - $1.25\n";
+    cout << "\t\t\t\t\tNachos - $4.50\t\t\tBolsa de Grano de Cafe - $10.00\n";
+    cout << "\t\t\t\t\tHot Kaiser - $1.25\n\n";
 }
