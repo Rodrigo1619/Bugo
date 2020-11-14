@@ -48,7 +48,11 @@ struct cliente {
 };
 //prototipo de funcion y constante de suma para McBurger
 void Mcburger();
-void agregarMcburger();
+void agregarpapas();
+void agregarhamburguesa();
+void agregarhamburguesadoble();
+void agregarnachos();
+void agregarhotkaiser();
 void consultarPedidoMB();
 float sumaMB = 0;
 
@@ -59,7 +63,7 @@ int main (){
     cout << "\t\tBienvenido a Bugo!\n";
 
     do {
-        cout << "\t1) Nueva orden\t\t2) Revisar total\n\t3) Mostrar menu\t\t4) Despachar cliente\n\t5) Salir\n";
+        cout << "\t1) Ordenar con McBurger\t\t2) Revisar total\n\t3) Mostrar menu\t\t4) Despachar cliente\n\t5) Salir\n";
         cin >> opcion;
         switch (opcion){
             case 1: Mcburger(); break;
@@ -97,37 +101,83 @@ void Mcburger()
 
     do
     {
-    cout<<"1) Ordenar comida\t2) Consultar pedido\t3) Salir de este menu"<<endl;  
+    cout<<"1) Ordenar Papas fritas\t 2) Ordenar hamburguesa normal\t 3)Ordenar hamburguesa doble"<<endl;
+    cout<<"4) Ordenar Nachos\t 5)Ordenar hot kaiser\t\t6)Consultar su orden"<<endl;
+    cout<<"7) Salir de este menu"<<endl;  
     cout<<"Que desea realizar?"<<endl; cin>>opcionMB; cin.ignore();
-    
     
     switch (opcionMB)
     {
-        case 1: agregarMcburger(); break;
-        case 2: consultarPedidoMB(); break;
-        case 3: continuarBM = false; break;
+        case 1: agregarpapas(); break;
+        case 2: agregarhamburguesa(); break;
+        case 3: agregarhamburguesadoble(); break;
+        case 4: agregarnachos(); break;
+        case 5: agregarhotkaiser(); break;
+        case 6: consultarPedidoMB(); break;
+        case 7 : continuarBM = false; break;
         default: cout<<"Opcion ingresada no valida!!!!"<<endl; break;
     }
     } while (continuarBM);
 }
-void agregarMcburger()
+void agregarpapas()
 {
-    clienteMB unpedido;
-    McBurger producto;
-    
-    cout<<"Ingrese el nombre de la persona ordenando:"<<endl; getline(cin,unpedido.nombre);
-    cout<<"Que producto desea ordenar?: "<<endl; getline(cin, producto.nombreMB);
-    cout<<"Precio del producto: "<<endl; cin>>producto.precioMB;
-    listaMC.push_back(producto);
+    clienteMB pedidopapas;
+    McBurger papas;
+
+    cout<<"Ingrese el nombre de la persona que esta ordenando: "<<endl; getline(cin,pedidopapas.nombre);
+    papas.nombreMB = "Papas fritas";
+    papas.precioMB = 1.00; cin.ignore();
+    listaMC.push_back(papas);
+}
+void agregarhamburguesa()
+{
+    clienteMB pedidohamburguesa;
+    McBurger hamburguesa;
+
+    cout<<"Ingrese el nombre de la persona que esta ordenando: "<<endl; getline(cin,pedidohamburguesa.nombre);
+    hamburguesa.nombreMB = "Hamburguesa";
+    hamburguesa.precioMB = 3.50; cin.ignore();
+    listaMC.push_back(hamburguesa);
+}
+void agregarhamburguesadoble()
+{
+    clienteMB pedidohamburguesadoble;
+    McBurger hamburguesadoble;
+
+    cout<<"Ingrese el nombre de la persona que esta ordenando: "<<endl; getline(cin,pedidohamburguesadoble.nombre);
+    hamburguesadoble.nombreMB = "Hamburguesa doble";
+    hamburguesadoble.precioMB = 5.00; cin.ignore();
+    listaMC.push_back(hamburguesadoble);
+}
+void agregarnachos()
+{
+    clienteMB pedidonachos;
+    McBurger nachos;
+
+    cout<<"Ingrese el nombre de la persona que esta ordenando: "<<endl; getline(cin,pedidonachos.nombre);
+    nachos.nombreMB = "Nachos";
+    nachos.precioMB = 4.50; cin.ignore();
+    listaMC.push_back(nachos);
+}
+void agregarhotkaiser()
+{
+    clienteMB pedidohotkaiser;
+    McBurger hotkaiser;
+
+    cout<<"Ingrese el nombre de la persona que esta ordenando: "<<endl; getline(cin,pedidohotkaiser.nombre);
+    hotkaiser.nombreMB = "Hot kaiser";
+    hotkaiser.precioMB = 1.25; cin.ignore();
+    listaMC.push_back(hotkaiser);
 }
 void consultarPedidoMB()
 {
     for (int i = 0;i<listaMC.size();i++)
     {
-        cout<<"Su pedido es:"<<endl;
-        cout<<"PRODUCTO: "<<listaMC[i].nombreMB<<endl;
-        cout<<"PRECIO: $"<<listaMC[i].precioMB<<endl;
+        cout<<"\t\tSu pedido es:"<<endl;
+        cout<<"\t\tPRODUCTO: "<<listaMC[i].nombreMB<<endl;
+        cout<<"\t\tPRECIO: $"<<listaMC[i].precioMB<<endl;
         sumaMB = sumaMB + listaMC[i].precioMB;
     }
     cout<<"Su monto total por los pedidos es: $"<<sumaMB<<endl;
+    cout<<"Muchas gracias por preferirnos :D"<<endl<<endl;
 }
