@@ -8,24 +8,6 @@
 
 using namespace std;
 
-/* 
-Oso meloso
-Crepas a $3.50
-Pie/chesse cake con café a $4.00
-Pastel entero, sabor al gusto del cliente a $30.00
-McBurger
-Orden de papas $1.00
-Hamburguesa normal $3.50
-Hamburguesa doble $5.00
-Orden de nachos $4.50
-chucho caliente  $1.25
-El buen café
-Malteadas $2.00
-Capuccino $2.50
-Café $1.25
-Bolsa grande de grano de café $10.00
-*/
-
 // Oso meloso
 struct productoOso
 {
@@ -44,10 +26,7 @@ void  MenuOso(),AgregarCrepa(),AgregarPie(),  AgregarPastel(), Consultar();
 //almacenar el precio de los platos pedidos
 float sumaOso=0;
 
-struct producto {
-    string nombre;
-    float precio;
-};
+// MC burger
 struct McBurger 
 {
     string nombreMB;
@@ -59,23 +38,25 @@ struct clienteMB
     string nombre;
 };
 vector<McBurger>listaMC;
-
-
-struct cliente {
-    string nombre;
-    vector <producto> pedido;
-    float total;
-};
 //prototipo de funcion y constante de suma para McBurger
-void Mcburger();
-void agregarpapas();
-void agregarhamburguesa();
-void agregarhamburguesadoble();
-void agregarnachos();
-void agregarhotkaiser();
-void consultarPedidoMB();
+void Mcburger(), agregarpapas(), agregarhamburguesa(), agregarhamburguesadoble(), agregarnachos(), agregarhotkaiser(), consultarPedidoMB();
 float sumaMB = 0;
 
+
+//El Buen cafe
+enum identificador {malteada, capuccino, cafe, cafeBolsa};
+struct productoCafe {
+    identificador tipo;
+    float precio;
+};
+struct cliente {
+    string nombre;
+    vector <productoCafe> pedido;
+    float total;
+};
+vector <cliente> listaElBuenCafe;
+productoCafe addProduct (vector <productoCafe> V);
+void elBuenCafe ();
 
 int main (){
     bool menu = true;
@@ -92,24 +73,18 @@ int main (){
                 cout << "\t\t\t\t\tNachos - $4.50\t\t\tBolsa de Grano de Cafe - $10.00\n";
                 cout << "\t\t\t\t\tHot Kaiser - $1.25\n\n";
                 
-        cout << "\t1) Ordenar con McBurger\t\t2) Ordenar con Oso meloso\n\t3) Ordenar con El buen cafe\t\t4) Despachar cliente\n\t5) Salir\n";
+        cout << "\t1) Ordenar con McBurger\t\t2) Ordenar con Oso meloso\n\t3) Ordenar con El buen cafe\t4) Despachar cliente\n\t5) Salir\n";
         cout<<"\tOpcion a elegir: "<<endl;
         cin >> opcion;
         switch (opcion){
             case 1: Mcburger(); break;
-            
-            case 2: MenuOso();
-            break;
-            case 3:
-            
-            break;
-            case 4:
-            break;
+            case 2: MenuOso();break;
+            case 3: elBuenCafe();break;
+            case 4:break;
             case 5:
                 menu = false;
             break;
-            default:
-            break;
+            default: cout << "Ingresa una opcion valida!"; break;
         }
     } while (menu == true);
 
@@ -251,8 +226,6 @@ void AgregarCrepa()
     cin.ignore();
     lista_platos.insert(lista_platos.end(), Plato);
 }
-
-
 void AgregarPie()
 {
      pedidoOso pedido;
@@ -267,9 +240,6 @@ void AgregarPie()
     cin.ignore();
     lista_platos.insert(lista_platos.end(), Plato);
 }
-
-
-
 void AgregarPastel()
 {
      pedidoOso pedido;
@@ -284,7 +254,6 @@ void AgregarPastel()
     cin.ignore();
     lista_platos.insert(lista_platos.end(), Plato);
 }
-
 void Consultar()
 {
     time_t t = time(NULL);
@@ -308,4 +277,53 @@ void Consultar()
     cout<<"---------------------------------------------------------------------"<<endl;
     cout<<"precio total a pagar: $ "<<sumaOso<<endl;
  
+}
+
+// Funciones de El Buen Cafe
+
+void elBuenCafe (){
+    cliente NuevoCliente;
+    int op = 0;
+    bool menu = true;
+    cout << "Bienvenido a  El Buen Cafe!\nCual es tu nombre:  ";
+    cin >> NuevoCliente.nombre;
+    do {
+        cout << "\nQue deseas " << NuevoCliente.nombre << "?\n";
+        cout << "\t1)Malteada - $2.00\t2)Capuccino - $2.50\n\t3)Cafe - $1.25\t\t4)Bolsa de Grano de Cafe - $10.00\n\t5) Salir del menu\n";
+        cin >> op;
+        productoCafe NuevoPlato;
+        switch (op)
+        {
+        case 1: 
+            NuevoPlato.tipo = malteada;NuevoPlato.precio = 2;
+            cout << "Malteada agregada! Por $" << NuevoPlato.precio << endl; 
+            NuevoCliente.pedido.insert(NuevoCliente.pedido.end(), NuevoPlato);
+            break;
+        case 2: 
+            NuevoPlato.tipo = capuccino;NuevoPlato.precio = 2.5;
+            cout << "Capuccino agregado! Por $" << NuevoPlato.precio << endl; 
+            NuevoCliente.pedido.insert(NuevoCliente.pedido.end(), NuevoPlato);
+            break;
+        case 3: 
+            NuevoPlato.tipo = cafe;NuevoPlato.precio = 1.25;
+            cout << "Cafe agregado! Por $" << NuevoPlato.precio << endl; 
+            NuevoCliente.pedido.insert(NuevoCliente.pedido.end(), NuevoPlato);
+            break;
+        case 4: 
+            NuevoPlato.tipo = cafeBolsa;NuevoPlato.precio = 10.00; 
+            cout << "Bolsa de cafe agregado! Por $" << NuevoPlato.precio << endl; 
+            NuevoCliente.pedido.insert(NuevoCliente.pedido.end(), NuevoPlato);
+            break;
+        case 5: menu = false; break;
+        default:cout << "Ese producto no existe!";break;
+        }
+        
+    }while (menu == true);
+    NuevoCliente.pedido.shrink_to_fit();
+    for (int i = 0; i < NuevoCliente.pedido.size(); i++){
+        NuevoCliente.total = NuevoCliente.total + NuevoCliente.pedido[i].precio; 
+    }
+    cout << NuevoCliente.nombre << ", tu total por la orden es $" << NuevoCliente.total << endl 
+    << "Gracias por escoger El Buen Cafe!\n\n";
+    system("pause");
 }
