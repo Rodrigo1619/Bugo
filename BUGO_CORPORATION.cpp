@@ -49,6 +49,7 @@ float sumaMB = 0;
 enum identificador {malteada, capuccino, cafe, cafeBolsa};
 struct productoCafe {
     identificador tipo;
+    string tipo2;
     float precio;
 };
 struct cliente {
@@ -56,7 +57,6 @@ struct cliente {
     vector <productoCafe> pedido;
     float total=0;
 };
-vector <productoCafe> pedido;
 vector <cliente> listaElBuenCafe;
 productoCafe addProduct (vector <productoCafe> V);
 void elBuenCafe ();
@@ -84,12 +84,12 @@ int main (){
                 cout << "\t\t\t\t\tNachos - $4.50\t\t\tBolsa de Grano de Cafe - $10.00\n";
                 cout << "\t\t\t\t\tHot Kaiser - $1.25\n\n";
                 
-        cout << "\t1) Ordenar con McBurger\t\t2) Ordenar con Oso meloso\n\t3) Ordenar con El buen cafe\t4) Finalizar pedido\n\t5) Salir\n";
+        cout << "\t1) Ordenar con Oso meloso\t2) Ordenar con McBurger\n\t3) Ordenar con El buen cafe\t4) Finalizar pedido\n\t5) Salir\n";
         cout<<"\tOpcion a elegir: "<<endl;
         cin >> opcion;
         switch (opcion){
-            case 1: Mcburger(); break;
-            case 2: MenuOso();break;
+            case 1: MenuOso(); break;
+            case 2: Mcburger();break;
             case 3: elBuenCafe();break;
             case 4: despacharC();break;
             case 5:
@@ -112,9 +112,9 @@ void Mcburger()
 
     do
     {
-    cout<<"1) Ordenar Papas fritas\t 2) Ordenar hamburguesa normal\t 3)Ordenar hamburguesa doble"<<endl;
-    cout<<"4) Ordenar Nachos\t\t 5)Ordenar hot kaiser \t\t6)Consultar su orden"<<endl;
-    cout<<"7) Salir de este menu"<<endl;  
+    cout<<"\t1) Ordenar Papas fritas\t\t2) Ordenar hamburguesa normal\t3)Ordenar hamburguesa doble"<<endl;
+    cout<<"\t4) Ordenar Nachos\t\t5)Ordenar hot kaiser\t\t6)Consultar su orden"<<endl;
+    cout<<"\t7) Salir de este menu"<<endl;  
     cout<<"Que desea realizar?"<<endl; cin>>opcionMB; cin.ignore();
     
     switch (opcionMB)
@@ -300,9 +300,9 @@ void Consultar()
 }
 
 // Funciones de El Buen Cafe
-cliente NuevoCliente;
+
 void elBuenCafe (){
-    
+    cliente NuevoCliente;    
     int op = 0;
     bool menu = true;
     cout << "Bienvenido a  El Buen Cafe!\nCual es tu nombre:  ";
@@ -317,21 +317,25 @@ void elBuenCafe (){
         case 1: 
             NuevoPlato.tipo = malteada;NuevoPlato.precio = 2;
             cout << "Malteada agregada! Por $" << NuevoPlato.precio << endl; 
+            NuevoPlato.tipo2 = "Malteada";
             NuevoCliente.pedido.insert(NuevoCliente.pedido.end(), NuevoPlato);
             break;
         case 2: 
             NuevoPlato.tipo = capuccino;NuevoPlato.precio = 2.5;
             cout << "Capuccino agregado! Por $" << NuevoPlato.precio << endl; 
+            NuevoPlato.tipo2 = "Capuccino";
             NuevoCliente.pedido.insert(NuevoCliente.pedido.end(), NuevoPlato);
             break;
         case 3: 
             NuevoPlato.tipo = cafe;NuevoPlato.precio = 1.25;
             cout << "Cafe agregado! Por $" << NuevoPlato.precio << endl; 
+            NuevoPlato.tipo2 = "Cafe";
             NuevoCliente.pedido.insert(NuevoCliente.pedido.end(), NuevoPlato);
             break;
         case 4: 
             NuevoPlato.tipo = cafeBolsa;NuevoPlato.precio = 10.00; 
             cout << "Bolsa de cafe agregado! Por $" << NuevoPlato.precio << endl; 
+            NuevoPlato.tipo2 = "Bolsa de cafe";
             NuevoCliente.pedido.insert(NuevoCliente.pedido.end(), NuevoPlato);
             break;
         case 5: menu = false; break;
@@ -343,8 +347,18 @@ void elBuenCafe (){
     for (int i = 0; i < NuevoCliente.pedido.size(); i++){
         NuevoCliente.total = NuevoCliente.total + NuevoCliente.pedido[i].precio; 
     }
-    cout << NuevoCliente.nombre << ", tu total por la orden es $" << NuevoCliente.total << endl 
-    << "Gracias por escoger El Buen Cafe!\n\n";
+    if (NuevoCliente.total != 0)
+    {
+        cout << NuevoCliente.nombre << ", tu total por la orden es $" << NuevoCliente.total << endl 
+        << "Gracias por escoger El Buen Cafe!\n\n";
+        listaElBuenCafe.insert(listaElBuenCafe.end(), NuevoCliente);
+        NuevoCliente.pedido.clear();
+    } else
+    {
+        cout << "Gracias por escoger El Buen Cafe!\n\n";
+        NuevoCliente.pedido.clear();
+    }
+    
     system("pause");
 }
 
@@ -374,7 +388,7 @@ void despacharOso()
         cout<< "\tPRECIO: $ "<<lista_platos[i].precio_unitario<<endl;
         sumaOso = lista_platos[i].precio_unitario;
     }
-    cout << "\tTotal gastado en Oso Meloso: $" << sumaOso << endl;
+    cout << "\tTotal en Oso Meloso: $" << sumaOso << endl;
 }
 
 //Funcion despachar para El Buen Cafe
@@ -383,13 +397,19 @@ void despacharEBC()
     cout<<"---------------------------------------------------------------------"<<endl;
     cout << endl << "---Restaurante: El Buen Cafe---" << endl;
 
-    for (int i = 0; i< pedido.size(); i++)
+    for (int i = 0; i< listaElBuenCafe.size(); i++)
     {
-        cout<< "\tPRODUCTO: " <<pedido[i].tipo<<endl;
-        cout<< "\tPRECIO: $ "<<pedido[i].precio<<endl;
-        sumaEBC = NuevoCliente.total;
+        cout << "Orden: " << listaElBuenCafe[i].nombre << endl;
+
+        for (int j = 0; j< listaElBuenCafe[i].pedido.size(); j++){
+            productoCafe dummy = listaElBuenCafe[i].pedido[j];
+            cout<<"\t"<<j+1<<")PRODUCTO: " <<dummy.tipo2<<endl;
+            cout<< "  \tPRECIO: $ "<<dummy.precio<<endl << endl;            
+        }
+        cout << "Total del cliente: $" << listaElBuenCafe[i].total << endl << endl;
+        sumaEBC = sumaEBC + listaElBuenCafe[i].total;
     }
-    cout << "\tTotal gastado en El buen Cafe: $" << sumaEBC << endl;
+    cout << "\tTotal en El buen Cafe: $" << sumaEBC << endl;
     
 }
 
@@ -405,5 +425,5 @@ void despacharMcBurger()
         cout<< "\tPRECIO: $ "<<listaMC[i].precioMB<<endl;
         sumaMB = listaMC[i].precioMB;
     }
-    cout << "\tTotal gastado en McBurger: $" << sumaMB << endl << endl;
+    cout << "\tTotal en McBurger: $" << sumaMB << endl << endl;
 }
